@@ -1,0 +1,44 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:renameFiles="clr-namespace:RenameFiles"
+        x:Class="RenameFiles.MainWindow"
+        Title="MainWindow" WindowStartupLocation="CenterScreen" Height="585" Width="793">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="145"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <TabControl Margin="0,0,0,31">
+                <TabItem Header="Simple" x:Name="tabSimple">
+                    <Grid>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Format" VerticalAlignment="Top"/>
+                        <TextBox Height="23" Margin="53,9,10,0" TextWrapping="Wrap" Text="{Binding Format, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+                        <TextBlock Margin="0,36,10,0" TextWrapping="Wrap" Text="&lt;i:1&gt;   &lt;r:from:to&gt;" VerticalAlignment="Top" HorizontalAlignment="Right" Width="124" TextAlignment="Right"/>
+                        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="53,60,0,0" TextWrapping="Wrap" Text="Extension:" VerticalAlignment="Top"/>
+                        <TextBox x:Name="tbExtension" HorizontalAlignment="Left" Height="23" Margin="111,59,0,0" TextWrapping="Wrap" Text="{Binding Extension, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                        <RadioButton x:Name="rbRename" Content="Rename" GroupName="type" IsChecked="{Binding TypeRename}" HorizontalAlignment="Left" Margin="53,37,0,0" VerticalAlignment="Top"/>
+                        <RadioButton x:Name="rbReplace" Content="Replace" GroupName="type" IsChecked="{Binding TypeReplace}" HorizontalAlignment="Left" Margin="130,37,0,0" VerticalAlignment="Top"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Regex" x:Name="tabRegex">
+                    <Grid>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Regex" VerticalAlignment="Top"/>
+                        <TextBox Height="23" Margin="53,9,10,0" TextWrapping="Wrap" Text="{Binding RegexFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,39,0,0" TextWrapping="Wrap" Text="Replace" VerticalAlignment="Top"/>
+                        <TextBox Height="23" Margin="53,37,10,0" TextWrapping="Wrap" Text="{Binding RegexReplaces, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        <DataGrid ItemsSource="{Binding Files}" x:Name="dgFiles" CopyingRowClipboardContent="DgFiles_OnCopyingRowClipboardContent" renameFiles:VisualHelper.EnableRowsMove="True" DragEnter="UIElement_OnDragEnter" Drop="OnDrop" AllowDrop="True" SelectionMode="Single" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Row="1" Margin="0" CanUserAddRows="False" CanUserDeleteRows="True" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserSortColumns="True" CanUserResizeColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="File name" IsReadOnly="True" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Output" IsReadOnly="True" Binding="{Binding Output}" />
+                <DataGridTextColumn Header="Directory" IsReadOnly="True" Binding="{Binding FileInfo.DirectoryName}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Rename" HorizontalAlignment="Left" x:Name="bRename" Margin="10,0,0,6" VerticalAlignment="Bottom" Width="75" Click="bRename_Click"/>
+    </Grid>
+</Window>
